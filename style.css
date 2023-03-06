@@ -12,9 +12,15 @@ main {
 }
 
 #canvas {
-  position: fixed;
+	aspect-ratio: 4 / 3;
+	width: 1024px;
+	height: 768px;
   background-color: white;
-  border: 5px solid dodgerblue;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
+}
+
+@media only screen and (max-width: 1024px) {
+	#canvas {
+		width: 100%;
+		height: 100%;
+	}
 }

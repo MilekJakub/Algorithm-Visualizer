@@ -1,20 +1,18 @@
-// sorting algorithm
-// number of elements
-// speed
-
 import { Element } from "./modules/element.mjs";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-const CANV_WIDTH = 640;
-const CANV_HEIGHT = 480;
+let CANVAS_WIDTH = 640;
+let CANVAS_HEIGHT = 480;
+let elements = [];
 
 const DEFAULT_VALUES = [
 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
 // 11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
 // 31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50
 ];
+
 const DEFAULT_COLOR = "red";
 const DEFAULT_WIDTH = 32;
 const DEFAULT_HEIGHT = 10;
@@ -23,25 +21,44 @@ const DEFAULT_FONTFAMILY = "Monospace";
 const DEFAULT_FONTSIZE = 16;
 const DEFAULT_MARGIN = 2;
 
-let elements = [];
-let values = DEFAULT_VALUES;
-
 window.addEventListener("resize", function () {
-  canvas.width = CANV_WIDTH;
-  canvas.height = CANV_HEIGHT;
+	CANVAS_WIDTH = canvas.clientWidth;
+	CANVAS_HEIGHT = canvas.clientHeight;
+	canvas.width = CANVAS_WIDTH;
+	canvas.height = CANVAS_HEIGHT;
+	elements = createElements(
+		DEFAULT_VALUES, 
+		DEFAULT_COLOR, 
+		DEFAULT_WIDTH, 
+		DEFAULT_HEIGHT, 
+		DEFAULT_HOP, 
+		DEFAULT_FONTFAMILY, 
+		DEFAULT_FONTSIZE
+		);
   renderPosition(elements);
 });
 
 window.addEventListener("DOMContentLoaded", function () {
-  canvas.width = CANV_WIDTH;
-  canvas.height = CANV_HEIGHT;
-  elements = createElements(DEFAULT_VALUES);
+	CANVAS_WIDTH = canvas.clientWidth;
+	CANVAS_HEIGHT = canvas.clientHeight;
+	canvas.width = CANVAS_WIDTH;
+	canvas.height = CANVAS_HEIGHT;
+
+	elements = createElements(
+		DEFAULT_VALUES, 
+		DEFAULT_COLOR, 
+		DEFAULT_WIDTH, 
+		DEFAULT_HEIGHT, 
+		DEFAULT_HOP, 
+		DEFAULT_FONTFAMILY, 
+		DEFAULT_FONTSIZE
+		);
   renderPosition(elements);
 });
 
 window.addEventListener("keydown", function (event) {
   // log elements
-  if (event.key == "`") {
+  if (event.key == "l") {
     console.log(elements);
   }
 
@@ -60,78 +77,56 @@ window.addEventListener("keydown", function (event) {
     shuffleElements(elements);
     renderPosition(elements);
   }
-
 });
 
-function createElements(values) {
-  // INITIAL VALUES
-  let color = DEFAULT_COLOR;
-  let elementWidth = DEFAULT_WIDTH;
-  let elementHeight = DEFAULT_HEIGHT;
-  let hop = DEFAULT_HOP;
-  let fontFamily = DEFAULT_FONTFAMILY;
-  let fontSize = DEFAULT_FONTSIZE;
-
-  let font = `${fontSize}px ${fontFamily}`;
-  const maxValue = Math.max(...values);
+function createElements(values, color, elementWidth, elementHeight, hop, fontFamily, fontSize) {
+	const maxValue = Math.max(...values);
 
   // WIDTH SCALING
-  if (
-    elementWidth * values.length + DEFAULT_MARGIN * (values.length - 1) >
-    CANV_WIDTH - DEFAULT_WIDTH
-  ) {
-    while (true) {
-      if (elementWidth - 1 > 0) {
-        elementWidth -= 1;
-        if (
-          elementWidth * values.length + DEFAULT_MARGIN * (values.length - 1) <
-          CANV_WIDTH - DEFAULT_WIDTH
-        ) {
-          break;
-        }
-      } else break;
-    }
+	if (elementWidth * values.length + DEFAULT_MARGIN * (values.length - 1)
+			> CANVAS_WIDTH - DEFAULT_WIDTH) {
+		
+		while (elementWidth - 1 > 0) {
+			elementWidth -= 1;
+			if (elementWidth * values.length + DEFAULT_MARGIN * (values.length - 1)
+					< CANVAS_WIDTH - DEFAULT_WIDTH) break;
+		}
   }
 
   // HEIGHT SCALING
-  if (maxValue * hop * elementHeight >= CANV_HEIGHT / 2) {
-    while (true) {
-      if (hop - 0.1 > 0) {
-        hop -= 0.1;
-        if (maxValue * hop * elementHeight <= CANV_HEIGHT / 2) {
-          break;
-        }
-      } else break;
+  if (maxValue * hop * elementHeight >= CANVAS_HEIGHT / 2) {
+    while (hop - 0.1 > 0) {
+			hop -= 0.1;
+			if (maxValue * hop * elementHeight <= CANVAS_HEIGHT / 2) break;
     }
   }
 
   // FONT
-  ctx.font = `${fontSize}px ${fontFamily}`;
+  let font = `${fontSize}px ${fontFamily}`;
+  ctx.font = font;
   ctx.fillStyle = "black";
-
   let textWidth = ctx.measureText(maxValue).width;
 
   if (textWidth > elementWidth) {
     while (true) {
       if (fontSize <= 10) break;
+      if (textWidth <= elementWidth) break;
 
-      if (textWidth > elementWidth) {
-        fontSize--;
-        textWidth = ctx.measureText(maxValue).width;
-      } else break;
-    }
-  }
-
+			fontSize--;
+			textWidth = ctx.measureText(maxValue).width;
+		}
+	}
   font = `${fontSize}px ${fontFamily}`;
 
-  const algorithmWidth =
-    elementWidth * values.length + DEFAULT_MARGIN * (values.length - 1);
+	// POSITION
+  const algorithmWidth = elementWidth * values.length + DEFAULT_MARGIN * (values.length - 1);
   const algorithmHeight = elementHeight + (values.length - 1) * hop;
+  let x = (CANVAS_WIDTH - algorithmWidth) / 2;
+  let y = algorithmHeight - elementHeight + (CANVAS_HEIGHT + algorithmHeight) / 2;
 
-  let x = (CANV_WIDTH - algorithmWidth) / 2;
-  let y = algorithmHeight - elementHeight + (CANV_HEIGHT + algorithmHeight) / 2;
-
+	// CREATING ELEMENTS
   const elements = [];
+
   for (let i = 0; i < values.length; i++) {
     let element = new Element(
       values[i],
@@ -178,6 +173,7 @@ function shuffleElements(elements) {
   }
 }
 
+// cannot give the same value twice
 function randomNumber(min, max) { 
   let random = Math.floor(Math.random() * (max - min)) + min;
   
@@ -187,12 +183,4 @@ function randomNumber(min, max) {
 
   randomNumber.last = random;
   return random;
-}
-
-function randomRGB() {
-  return `rgb(${randomNumber(0, 255)},${randomNumber(0, 255)},${randomNumber(0, 255)})`;
-}
-
-function randomDarkRGB() {
-  return `rgb(${randomNumber(0, 150)},${randomNumber(0, 150)},${randomNumber(0, 150)})`;
 }
