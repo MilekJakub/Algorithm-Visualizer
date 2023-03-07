@@ -18,11 +18,12 @@ class Element {
     // text
     ctx.font = this.font;
     const margin = (this.width - ctx.measureText(this.value).width) / 2;
+		const fontSize = this.font.replace(/\D/g,'');
 
     ctx.fillText(
       this.value,
       this.x + margin,
-      this.y + this.height + 16,
+      this.y + this.height + Number(fontSize),
       this.width
     );
   }
