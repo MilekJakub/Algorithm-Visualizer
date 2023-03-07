@@ -8,15 +8,15 @@ let CANVAS_HEIGHT = 480;
 
 const DEFAULT_VALUES = [
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-	// 11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
-	// 31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50
+	//11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+	//31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50
 ];
 const DEFAULT_COLOR = "red";
 const DEFAULT_WIDTH = 32;
 const DEFAULT_HEIGHT = 10;
 const DEFAULT_HOP = 1.0;
 const DEFAULT_FONTFAMILY = "Monospace";
-const DEFAULT_FONTSIZE = 16;
+const DEFAULT_FONTSIZE = 13;
 const DEFAULT_MARGIN = 2;
 
 let currentValues = DEFAULT_VALUES;
@@ -88,12 +88,17 @@ window.addEventListener("keydown", function (event) {
 	if (event.key == "i") {
 		visualizeInsertionSort(elements);
 	}
+
+	// insertion sort
+	if (event.key == "b") {
+		visualizeBubbleSort(elements);
+	}
 });
 
 function scaleWidth(elementWidth, elementsLength, margin, canvasWidth) {
 	let elementsWidth = elementWidth * elementsLength;
 	let marginsWidth = margin * (elementsLength - 1);
-	const maximumWidth = canvasWidth - (elementWidth * 2);
+	const maximumWidth = canvasWidth;
 
 	if (elementsWidth + marginsWidth > maximumWidth) {		
 		while (elementWidth - 1 > 0) {
@@ -265,4 +270,51 @@ async function visualizeInsertionSort(elements) {
 
 		renderPosition(elements, ctx, CANVAS_WIDTH, CANVAS_HEIGHT);
 	}	
+}
+
+function bubbleSort(arr) {
+	let n = arr.length;
+
+	for (let i = 0; i < n - 1; i++) {
+		for (let j = 0; j < n-i-1; j++) {
+			if (arr[j] > arr[j + 1]) {
+				let temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+		}
+	}
+}
+
+async function visualizeBubbleSort(elements) {
+	let n = elements.length;
+
+	for (let i = 0; i < n - 1; i++) {
+		for (let j = 0; j < n - i - 1; j++) {
+			elements[j].color = 'purple';
+			elements[j + 1].color = 'purple';
+			renderPosition(elements, ctx, CANVAS_WIDTH, CANVAS_HEIGHT);
+			await sleep(100);
+			
+			if (elements[j].value > elements[j + 1].value) {
+				elements[j].color = '#88ff44';
+				elements[j + 1].color = '#88ff44';
+				renderPosition(elements, ctx, CANVAS_WIDTH, CANVAS_HEIGHT);
+				await sleep(100);
+				
+				// SWAP
+				let temp = elements[j];
+				elements[j] = elements[j + 1];
+				elements[j + 1] = temp;
+				temp = elements[j].x;
+				elements[j].x = elements[j + 1].x;
+				elements[j + 1].x = temp;
+			}
+
+			elements[j].color = DEFAULT_COLOR;
+			elements[j + 1].color = DEFAULT_COLOR;
+		}
+		elements[i].color = DEFAULT_COLOR;
+		renderPosition(elements, ctx, CANVAS_WIDTH, CANVAS_HEIGHT);
+	}
 }
