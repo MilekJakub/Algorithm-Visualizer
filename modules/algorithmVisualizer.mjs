@@ -134,6 +134,7 @@ class AlgorithmVisualizer {
 		
 		for (let element of this.algorithm.elements) element.color = this.defaultColor;
 		this.algorithm.render();
+		await this.sleep(500);
 	}
 
 	async visualizeSort(leftIndex, rightIndex) {

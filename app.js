@@ -12,11 +12,32 @@ const algorithmVisualizer = new AlgorithmVisualizer(algorithm);
 
 window.addEventListener("DOMContentLoaded", function () {
 	algorithm.render();
+	homepageLoop();
 });
 
 window.addEventListener("resize", function () {
 	algorithm.render();
 });
+
+async function homepageLoop() {
+	while(true) {
+		algorithm.shuffle();
+		algorithm.render();
+		await algorithmVisualizer.visualizeBubbleSort();
+		
+		algorithm.shuffle();
+		algorithm.render();
+		await algorithmVisualizer.visualizeInsertionSort();
+
+		algorithm.shuffle();
+		algorithm.render();
+		await algorithmVisualizer.visualizeSelectionSort();
+
+		algorithm.shuffle();
+		algorithm.render();
+		await algorithmVisualizer.visualizeMergeSort();
+	}
+}
 
 window.addEventListener("keydown", function (event) {
 	switch(event.key) {
