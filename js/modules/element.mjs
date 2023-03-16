@@ -27,7 +27,6 @@ class Element {
       this.width
     );
 	}
-
 }
 
 export { Element };

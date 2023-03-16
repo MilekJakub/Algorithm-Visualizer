@@ -3,7 +3,6 @@ import { Element } from './element.mjs';
 class Algorithm {
 
 	constructor(values, canvas, ctx) {
-
 		const elements = [];
 		for (let i = 0; i < values.length; i++) {
 			let element = new Element();
@@ -66,26 +65,22 @@ class Algorithm {
 	}
 
 	scale() {
-		this.canvas.width = this.canvas.clientWidth;
-		this.canvas.height = this.canvas.clientHeight;
-
 		this.scaleWidth();
 		this.scaleHeight();
 		this.scaleFont();
 	}
 
-	setCoordinates() {
-		this.canvas.width = this.canvas.clientWidth;
-		this.canvas.height = this.canvas.clientHeight;
+	calculateAlgorithmArea() {
+		this.algorithmWidth = (this.commonElementWidth * this.elements.length) + (this.margin * (this.elements.length - 1));
+		this.algorithmHeight = this.hop * (this.elements.length);
+		this.x = (this.canvas.width - this.algorithmWidth) / 2;
+		this.y = this.canvas.height - (this.canvas.height - this.algorithmHeight) / 2;
+	}
 
-		const algorithmWidth = (this.commonElementWidth * this.elements.length) + (this.margin * (this.elements.length - 1));
-		const algorithmHeight = this.hop * (this.elements.length - 1);
-		const x = (this.canvas.width - algorithmWidth) / 2;
-		const y = this.canvas.height - (this.canvas.height - algorithmHeight) / 2;
-		
+	setCoordinates() {
 		for (let i = 0; i < this.elements.length; i++) {
-			this.elements[i].x = x + (this.margin * i + this.commonElementWidth * i);
-			this.elements[i].y = y - this.elements[i].value * this.hop;
+			this.elements[i].x = this.x + (this.margin * i + this.commonElementWidth * i);
+			this.elements[i].y = this.y - this.elements[i].value * this.hop;
 			this.elements[i].width = this.commonElementWidth;
 			this.elements[i].height = this.elements[i].value * this.hop;
 			this.elements[i].font = `${this.fontSize}px ${this.fontFamily}`;
@@ -93,10 +88,9 @@ class Algorithm {
 	}
 
 	render() {
-		this.canvas.width = this.canvas.clientWidth;
-		this.canvas.height = this.canvas.clientHeight;
-		this.clear();
 		this.scale();
+		this.calculateAlgorithmArea();
+		this.clear();
 		this.setCoordinates();
 
 		for (let i = 0; i < this.elements.length; i++) {
@@ -106,7 +100,10 @@ class Algorithm {
 	}
 
 	clear() {
-		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		// when resizing without error margin, algorithm can leave uncleared pixels
+		let errorMargin = 4;
+
+		this.ctx.clearRect(this.x - errorMargin, this.y - this.algorithmHeight - errorMargin, this.algorithmWidth + 2 * errorMargin, this.algorithmHeight + this.fontSize + 2 * errorMargin);
 	}
 
 	shuffle() {
