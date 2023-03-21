@@ -50,10 +50,54 @@
 	<article>
 		<h1>Bubble Sort</h1>
 		<h2>Introduction</h2>
-		<p>Nam ex arcu, cursus consequat iaculis vel, condimentum pellentesque nisi. Fusce id consectetur lacus, in congue elit. Vestibulum vehicula elit in ante dapibus, porta rhoncus urna tempus. Etiam commodo, elit ac varius sodales, orci risus tincidunt dui, ut interdum dolor est non sapien. Suspendisse urna arcu, vulputate et aliquam sit amet, semper vel magna. Phasellus mauris magna, blandit nec nibh vitae, sagittis pretium orci. Aliquam ultrices eleifend dictum. Duis arcu risus, fermentum tristique efficitur vitae, commodo vel orci. Suspendisse eu dictum nibh.</p>
+		<p>Bubble Sort is the simplest sorting algorithm. It is not suitable for large data sets as its average and worst-case time complexity is quite high.</p>
 
-		<h2>Visualization</h2>
+		<h2>How does it work?</h2>
+		<p>The algorithm works by repeatedly swapping the adjacent elements if they are in the wrong order.</p>
+
+<code>begin BubbleSort(list)
+
+   for all elements of list
+      if list[i] > list[i+1]
+         swap(list[i], list[i+1])
+      end if
+   end for
+   
+   return list
+   
+end BubbleSort</code>
+		
+		<h2>Step By Step</h2>
 		<canvas style="background-color: #232323;" id="canvas"></canvas>
+
+		<h2>Implementation (JavaScript)</h2>
+<code>// changes array
+function bubbleSort(values) {
+  for (let i = 0; i &lt; values.length - 1; i++) {
+    for(let j = 0; j &lt; values.length - i - 1; j++) {
+      if (values[j] &gt; values[j + 1]) {
+        let temp = values[j];
+        values[j] = values[j + 1];
+        values[j + 1] = values;
+      }
+    }
+  }
+}
+
+// returns new array
+function bubbleSort(values) {
+  const sorted = [...values];
+  for (let i = 0; i &lt; sorted.length - 1; i++) {
+    for(let j = 0; j &lt; sorted.length - i - 1; j++) {
+      if (sorted[j] &gt; sorted[j + 1]) {
+        let temp = sorted[j];
+        sorted[j] = sorted[j + 1];
+        sorted[j + 1] = sorted;
+      }
+    }
+  }
+  return sorted;
+}</code>
 
 	<script src="../../js/sidebar.js" defer></script>
   <script type="module" src="../../js/bubble.js" defer></script>

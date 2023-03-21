@@ -99,11 +99,17 @@ class Algorithm {
 		}
 	}
 
+	// clears only algorithm area
 	clear() {
-		// when resizing without error margin, algorithm can leave uncleared pixels
+		// when resizing without additional error margin, it can leave uncleared pixels
 		let errorMargin = 4;
 
-		this.ctx.clearRect(this.x - errorMargin, this.y - this.algorithmHeight - errorMargin, this.algorithmWidth + 2 * errorMargin, this.algorithmHeight + this.fontSize + 2 * errorMargin);
+		this.ctx.clearRect (
+			this.x - errorMargin, 
+			this.y - this.algorithmHeight - errorMargin,
+			this.algorithmWidth + 2 * errorMargin,
+			this.algorithmHeight + this.fontSize + 2 * errorMargin
+		);
 	}
 
 	shuffle() {

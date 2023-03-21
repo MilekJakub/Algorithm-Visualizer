@@ -27,7 +27,6 @@ window.addEventListener("resize", function () {
 	canvas.height = canvas.clientHeight;
 
 	algorithm.render();
-	modeSwitcher.clearIcon();
 	modeSwitcher.renderIcon();
 });
 
@@ -37,9 +36,7 @@ document.body.addEventListener("mousemove", (event)=>{
 });
 
 
-
 // specific for this file
-
 async function bubbleSortLoop() {
 	while(true) {
 		algorithm.shuffle();
