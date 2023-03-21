@@ -28,18 +28,18 @@ async function homepageLoop() {
 	while(true) {
 		algorithm.shuffle();
 		algorithm.render();
-		await algorithmVisualizer.visualizeBubbleSort();
+		await algorithmVisualizer.bubbleSort();
 		
 		algorithm.shuffle();
 		algorithm.render();
-		await algorithmVisualizer.visualizeInsertionSort();
+		await algorithmVisualizer.insertionSort();
 
 		algorithm.shuffle();
 		algorithm.render();
-		await algorithmVisualizer.visualizeSelectionSort();
+		await algorithmVisualizer.selectionSort();
 
 		algorithm.shuffle();
 		algorithm.render();
-		await algorithmVisualizer.visualizeMergeSort();
+		await algorithmVisualizer.mergeSort();
 	}
 }

@@ -13,7 +13,20 @@ class AlgorithmVisualizer {
 		return new Promise(resolve => setTimeout(resolve, time));
 	}
 
-	async visualizeBubbleSort() {
+	awaitKeypress() {
+		return new Promise((resolve) => {
+			document.addEventListener('keydown', onKeyHandler);
+			function onKeyHandler(e) {
+				e = e || window.event;
+				if (e.keyCode === 39) {
+					document.removeEventListener('keydown', onKeyHandler);
+					resolve();
+				}
+			}	
+		});
+	}
+
+	async bubbleSort() {
 		for (let i = 0; i < this.algorithm.elements.length - 1; i++) {
 			for (let j = 0; j < this.algorithm.elements.length - i - 1; j++) {
 				this.algorithm.elements[j].color = this.purpleColor;
@@ -44,7 +57,38 @@ class AlgorithmVisualizer {
 		}
 	}
 
-	async visualizeInsertionSort() {
+	async stepByStepBubbleSort() {
+		for (let i = 0; i < this.algorithm.elements.length - 1; i++) {
+			for (let j = 0; j < this.algorithm.elements.length - i - 1; j++) {
+				this.algorithm.elements[j].color = this.purpleColor;
+				this.algorithm.elements[j + 1].color = this.purpleColor;
+				this.algorithm.render();
+				await this.awaitKeypress();
+				
+				if (this.algorithm.elements[j].value > this.algorithm.elements[j + 1].value) {
+					this.algorithm.elements[j].color = this.greenColor;
+					this.algorithm.elements[j + 1].color = this.greenColor;
+					this.algorithm.render();
+					await this.awaitKeypress();
+					
+					let temp = this.algorithm.elements[j];
+					this.algorithm.elements[j] = this.algorithm.elements[j + 1];
+					this.algorithm.elements[j + 1] = temp;
+
+					temp = this.algorithm.elements[j].x;
+					this.algorithm.elements[j].x = this.algorithm.elements[j + 1].x;
+					this.algorithm.elements[j + 1].x = temp;
+				}
+
+				this.algorithm.elements[j].color = this.defaultColor;
+				this.algorithm.elements[j + 1].color = this.defaultColor;
+			}
+			this.algorithm.elements[i].color = this.defaultColor;
+			this.algorithm.render();	
+		}
+	}
+
+	async insertionSort() {
 		for (let i = 0; i < this.algorithm.elements.length; i++) {
 			let j = i;
 			this.algorithm.elements[i].color = this.orangeColor;
@@ -81,7 +125,7 @@ class AlgorithmVisualizer {
 		}	
 	}
 
-	async visualizeSelectionSort() {
+	async selectionSort() {
 		let minIndex;
 		for (let i = 0; i < this.algorithm.elements.length - 1; i++) {
 			minIndex = i;
@@ -119,7 +163,7 @@ class AlgorithmVisualizer {
 		}
 	}
 
-	async visualizeMergeSort() { let leftIndex = 0;
+	async mergeSort() { let leftIndex = 0;
 		let rightIndex = this.algorithm.elements.length - 1;
 
 		this.algorithm.elements[leftIndex].color = this.greenColor;
@@ -130,14 +174,14 @@ class AlgorithmVisualizer {
 		this.algorithm.elements[leftIndex].color = this.defaultColor;
 		this.algorithm.elements[rightIndex].color = this.defaultColor;
 
-		await this.visualizeSort(leftIndex, rightIndex);
+		await this.Sort(leftIndex, rightIndex);
 		
 		for (let element of this.algorithm.elements) element.color = this.defaultColor;
 		this.algorithm.render();
 		await this.sleep(500);
 	}
 
-	async visualizeSort(leftIndex, rightIndex) {
+	async sort(leftIndex, rightIndex) {
 		if (leftIndex >= rightIndex) return;
 
 		const middleIndex = Math.trunc((leftIndex + rightIndex) / 2);
@@ -147,12 +191,12 @@ class AlgorithmVisualizer {
 		await this.sleep(100);
 		this.algorithm.elements[middleIndex].color = this.defaultColor;
 
-		await this.visualizeSort(leftIndex, middleIndex);
-		await this.visualizeSort(middleIndex + 1, rightIndex);
-		await this.visualizeMerge(leftIndex, middleIndex, rightIndex);
+		await this.sort(leftIndex, middleIndex);
+		await this.sort(middleIndex + 1, rightIndex);
+		await this.merge(leftIndex, middleIndex, rightIndex);
  	}
 
-	async visualizeMerge(leftIndex, middleIndex, rightIndex) {
+	async merge(leftIndex, middleIndex, rightIndex) {
 		const lArrayLength = middleIndex - leftIndex + 1;
 		const rArrayLength = rightIndex - middleIndex;
 

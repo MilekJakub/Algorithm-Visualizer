@@ -13,6 +13,10 @@ body {
 	display: flow-root;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 main {
   width: 1024px;
   height: 768px;

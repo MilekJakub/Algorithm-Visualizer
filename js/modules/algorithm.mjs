@@ -2,7 +2,7 @@ import { Element } from './element.mjs';
 
 class Algorithm {
 
-	constructor(values, canvas, ctx) {
+	constructor(values, canvas) {
 		const elements = [];
 		for (let i = 0; i < values.length; i++) {
 			let element = new Element();
@@ -17,7 +17,7 @@ class Algorithm {
 
 		this.elements = elements;	
 		this.canvas = canvas;
-		this.ctx = ctx;
+		this.ctx = canvas.getContext('2d');
 	}
 
 	scaleWidth() {
