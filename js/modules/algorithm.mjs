@@ -18,6 +18,7 @@ class Algorithm {
 		this.elements = elements;	
 		this.canvas = canvas;
 		this.ctx = canvas.getContext('2d');
+		this.render();
 	}
 
 	scaleWidth() {

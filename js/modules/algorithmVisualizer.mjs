@@ -1,221 +1,219 @@
 class AlgorithmVisualizer {
 
-	purpleColor = '#6611ff';
-	greenColor = '#88ff44';
-	orangeColor = '#ffaa00';
+	static purpleColor = '#6611ff';
+	static greenColor = '#88ff44';
+	static orangeColor = '#ffaa00';
 
-	constructor(algorithm) {
-		this.algorithm = algorithm;
-		this.defaultColor = algorithm.elementsColor;
-	}
-
-	sleep(time) {
+	static sleep(time) {
 		return new Promise(resolve => setTimeout(resolve, time));
 	}
 
-	awaitKeypress() {
+	static async awaitKeypress() {
 		return new Promise((resolve) => {
-			document.addEventListener('keydown', onKeyHandler);
+			document.addEventListener('keydown', onKeyHandler, { once: true });
 			function onKeyHandler(e) {
 				e = e || window.event;
 				if (e.keyCode === 39) {
-					document.removeEventListener('keydown', onKeyHandler);
 					resolve();
 				}
 			}	
 		});
 	}
 
-	async bubbleSort() {
-		for (let i = 0; i < this.algorithm.elements.length - 1; i++) {
-			for (let j = 0; j < this.algorithm.elements.length - i - 1; j++) {
-				this.algorithm.elements[j].color = this.purpleColor;
-				this.algorithm.elements[j + 1].color = this.purpleColor;
-				this.algorithm.render();
-				await this.sleep(100);
+	static async bubbleSort(algorithm) {
+		for (let i = 0; i < algorithm.elements.length - 1; i++) {
+			for (let j = 0; j < algorithm.elements.length - i - 1; j++) {
+				algorithm.elements[j].color = AlgorithmVisualizer.purpleColor;
+				algorithm.elements[j + 1].color = AlgorithmVisualizer.purpleColor;
+				algorithm.render();
+				await AlgorithmVisualizer.sleep(100);
 				
-				if (this.algorithm.elements[j].value > this.algorithm.elements[j + 1].value) {
-					this.algorithm.elements[j].color = this.greenColor;
-					this.algorithm.elements[j + 1].color = this.greenColor;
-					this.algorithm.render();
-					await this.sleep(100);
+				if (algorithm.elements[j].value > algorithm.elements[j + 1].value) {
+					algorithm.elements[j].color = AlgorithmVisualizer.greenColor;
+					algorithm.elements[j + 1].color = AlgorithmVisualizer.greenColor;
+					algorithm.render();
+					await AlgorithmVisualizer.sleep(100);
 					
-					let temp = this.algorithm.elements[j];
-					this.algorithm.elements[j] = this.algorithm.elements[j + 1];
-					this.algorithm.elements[j + 1] = temp;
+					let temp = algorithm.elements[j];
+					algorithm.elements[j] = algorithm.elements[j + 1];
+					algorithm.elements[j + 1] = temp;
 
-					temp = this.algorithm.elements[j].x;
-					this.algorithm.elements[j].x = this.algorithm.elements[j + 1].x;
-					this.algorithm.elements[j + 1].x = temp;
+					temp = algorithm.elements[j].x;
+					algorithm.elements[j].x = algorithm.elements[j + 1].x;
+					algorithm.elements[j + 1].x = temp;
 				}
 
-				this.algorithm.elements[j].color = this.defaultColor;
-				this.algorithm.elements[j + 1].color = this.defaultColor;
+				algorithm.elements[j].color = algorithm.elementsColor;
+				algorithm.elements[j + 1].color = algorithm.elementsColor;
 			}
-			this.algorithm.elements[i].color = this.defaultColor;
-			this.algorithm.render();	
+			algorithm.elements[i].color = algorithm.elementsColor;
+			algorithm.render();	
 		}
 	}
 
-	async stepByStepBubbleSort() {
-		for (let i = 0; i < this.algorithm.elements.length - 1; i++) {
-			for (let j = 0; j < this.algorithm.elements.length - i - 1; j++) {
-				this.algorithm.elements[j].color = this.purpleColor;
-				this.algorithm.elements[j + 1].color = this.purpleColor;
-				this.algorithm.render();
-				await this.awaitKeypress();
+	static async stepByStepBubbleSort(algorithm) {
+		for (let i = 0; i < algorithm.elements.length - 1; i++) {
+			for (let j = 0; j < algorithm.elements.length - i - 1; j++) {
+				algorithm.elements[j].color = AlgorithmVisualizer.purpleColor;
+				algorithm.elements[j + 1].color = AlgorithmVisualizer.purpleColor;
+				algorithm.render();
+				await AlgorithmVisualizer.awaitKeypress();
 				
-				if (this.algorithm.elements[j].value > this.algorithm.elements[j + 1].value) {
-					this.algorithm.elements[j].color = this.greenColor;
-					this.algorithm.elements[j + 1].color = this.greenColor;
-					this.algorithm.render();
-					await this.awaitKeypress();
+				if (algorithm.elements[j].value > algorithm.elements[j + 1].value) {
+					algorithm.elements[j].color = AlgorithmVisualizer.greenColor;
+					algorithm.elements[j + 1].color = AlgorithmVisualizer.greenColor;
+					algorithm.render();
+					await AlgorithmVisualizer.awaitKeypress();
 					
-					let temp = this.algorithm.elements[j];
-					this.algorithm.elements[j] = this.algorithm.elements[j + 1];
-					this.algorithm.elements[j + 1] = temp;
+					let temp = algorithm.elements[j];
+					algorithm.elements[j] = algorithm.elements[j + 1];
+					algorithm.elements[j + 1] = temp;
 
-					temp = this.algorithm.elements[j].x;
-					this.algorithm.elements[j].x = this.algorithm.elements[j + 1].x;
-					this.algorithm.elements[j + 1].x = temp;
+					temp = algorithm.elements[j].x;
+					algorithm.elements[j].x = algorithm.elements[j + 1].x;
+					algorithm.elements[j + 1].x = temp;
+	
+					algorithm.render();
+					await AlgorithmVisualizer.awaitKeypress();
 				}
 
-				this.algorithm.elements[j].color = this.defaultColor;
-				this.algorithm.elements[j + 1].color = this.defaultColor;
+				algorithm.elements[j].color = algorithm.elementsColor;
+				algorithm.elements[j + 1].color = algorithm.elementsColor;
 			}
-			this.algorithm.elements[i].color = this.defaultColor;
-			this.algorithm.render();	
+			algorithm.elements[i].color = algorithm.elementsColor;
+			algorithm.render();	
 		}
 	}
 
-	async insertionSort() {
-		for (let i = 0; i < this.algorithm.elements.length; i++) {
+	static async insertionSort(algorithm) {
+		for (let i = 0; i < algorithm.elements.length; i++) {
 			let j = i;
-			this.algorithm.elements[i].color = this.orangeColor;
-			this.algorithm.render();
+			algorithm.elements[i].color = AlgorithmVisualizer.orangeColor;
+			algorithm.render();
 			await this.sleep(100);
 
 			while (j > 0) {
-				this.algorithm.elements[j].color = this.purpleColor;
-				this.algorithm.elements[j - 1].color = this.purpleColor;
-				this.algorithm.render();
+				algorithm.elements[j].color = AlgorithmVisualizer.purpleColor;
+				algorithm.elements[j - 1].color = AlgorithmVisualizer.purpleColor;
+				algorithm.render();
 				await this.sleep(100);
 
-				if (this.algorithm.elements[j - 1].value > this.algorithm.elements[j].value) {
-					this.algorithm.elements[j].color = this.greenColor;
-					this.algorithm.elements[j-1].color = this.greenColor;
-					this.algorithm.render();
+				if (algorithm.elements[j - 1].value > algorithm.elements[j].value) {
+					algorithm.elements[j].color = AlgorithmVisualizer.greenColor;
+					algorithm.elements[j-1].color = AlgorithmVisualizer.greenColor;
+					algorithm.render();
 					await this.sleep(100);
 					
-					let temp = this.algorithm.elements[j];
-					this.algorithm.elements[j] = this.algorithm.elements[j - 1];
-					this.algorithm.elements[j-1] = temp;
+					let temp = algorithm.elements[j];
+					algorithm.elements[j] = algorithm.elements[j - 1];
+					algorithm.elements[j-1] = temp;
 
-					temp = this.algorithm.elements[j].x;
-					this.algorithm.elements[j].x = this.algorithm.elements[j - 1].x;
-					this.algorithm.elements[j - 1].x = temp;
+					temp = algorithm.elements[j].x;
+					algorithm.elements[j].x = algorithm.elements[j - 1].x;
+					algorithm.elements[j - 1].x = temp;
 				}
 				
-				this.algorithm.elements[j].color = this.defaultColor;
-				this.algorithm.elements[j - 1].color = this.defaultColor;
+				algorithm.elements[j].color = algorithm.elementsColor;
+				algorithm.elements[j - 1].color = algorithm.elementsColor;
 				j--;
 			}
 
-			this.algorithm.render();
+			algorithm.render();
 		}	
 	}
 
-	async selectionSort() {
+	static async selectionSort(algorithm) {
 		let minIndex;
-		for (let i = 0; i < this.algorithm.elements.length - 1; i++) {
+		for (let i = 0; i < algorithm.elements.length - 1; i++) {
 			minIndex = i;
-			this.algorithm.render();
+			algorithm.render();
 
-			for (let j = i + 1; j < this.algorithm.elements.length; j++) {
-				this.algorithm.elements[i].color = this.purpleColor;
-				this.algorithm.elements[j].color = this.purpleColor;
-				this.algorithm.render();
+			for (let j = i + 1; j < algorithm.elements.length; j++) {
+				algorithm.elements[i].color = AlgorithmVisualizer.purpleColor;
+				algorithm.elements[j].color = AlgorithmVisualizer.purpleColor;
+				algorithm.render();
 				await this.sleep(100);
 				
-				if(this.algorithm.elements[j].value < this.algorithm.elements[minIndex].value) {
-					this.algorithm.elements[minIndex].color = this.defaultColor;
-					this.algorithm.elements[i].color = this.orangeColor;
+				if(algorithm.elements[j].value < algorithm.elements[minIndex].value) {
+					algorithm.elements[minIndex].color = this.defaultColor;
+					algorithm.elements[i].color = AlgorithmVisualizer.orangeColor;
 					minIndex = j;
-					this.algorithm.elements[j].color = this.greenColor;
-					this.algorithm.render();
+					algorithm.elements[j].color = AlgorithmVisualizer.greenColor;
+					algorithm.render();
 					await this.sleep(100);
 				} else {
-					this.algorithm.elements[j].color = this.defaultColor;
+					algorithm.elements[j].color = algorithm.elementsColor;
 				}
 			}
 
-			let temp = this.algorithm.elements[i];
-			this.algorithm.elements[i] = this.algorithm.elements[minIndex];
-			this.algorithm.elements[minIndex] = temp;
+			let temp = algorithm.elements[i];
+			algorithm.elements[i] = algorithm.elements[minIndex];
+			algorithm.elements[minIndex] = temp;
 
-			temp = this.algorithm.elements[i].x;
-			this.algorithm.elements[i].x = this.algorithm.elements[minIndex].x;
-			this.algorithm.elements[minIndex].x = temp;
+			temp = algorithm.elements[i].x;
+			algorithm.elements[i].x = algorithm.elements[minIndex].x;
+			algorithm.elements[minIndex].x = temp;
 
-			this.algorithm.elements[i].color = this.defaultColor;
-			this.algorithm.elements[minIndex].color = this.defaultColor;
-			this.algorithm.render();
+			algorithm.elements[i].color = algorithm.elementsColor;
+			algorithm.elements[minIndex].color = algorithm.elementsColor;
+			algorithm.render();
 		}
 	}
 
-	async mergeSort() { let leftIndex = 0;
-		let rightIndex = this.algorithm.elements.length - 1;
+	static async mergeSort(algorithm) {
+		let leftIndex = 0;
+		let rightIndex = algorithm.elements.length - 1;
 
-		this.algorithm.elements[leftIndex].color = this.greenColor;
-		this.algorithm.elements[rightIndex].color = this.greenColor;
-		this.algorithm.render();
-		await this.sleep(100);
+		algorithm.elements[leftIndex].color = AlgorithmVisualizer.greenColor;
+		algorithm.elements[rightIndex].color = AlgorithmVisualizer.greenColor;
+		algorithm.render();
+		await AlgorithmVisualizer.sleep(100);
 
-		this.algorithm.elements[leftIndex].color = this.defaultColor;
-		this.algorithm.elements[rightIndex].color = this.defaultColor;
+		algorithm.elements[leftIndex].color = AlgorithmVisualizer.defaultColor;
+		algorithm.elements[rightIndex].color = AlgorithmVisualizer.defaultColor;
 
-		await this.Sort(leftIndex, rightIndex);
+		await AlgorithmVisualizer.sort(algorithm, leftIndex, rightIndex);
 		
-		for (let element of this.algorithm.elements) element.color = this.defaultColor;
-		this.algorithm.render();
-		await this.sleep(500);
+		for (let element of algorithm.elements) element.color = algorithm.elementsColor;
+		algorithm.render();
+		await AlgorithmVisualizer.sleep(500);
 	}
 
-	async sort(leftIndex, rightIndex) {
+	static async sort(algorithm, leftIndex, rightIndex) {
 		if (leftIndex >= rightIndex) return;
 
 		const middleIndex = Math.trunc((leftIndex + rightIndex) / 2);
 
-		this.algorithm.elements[middleIndex].color = this.purpleColor;
-		this.algorithm.render();
-		await this.sleep(100);
-		this.algorithm.elements[middleIndex].color = this.defaultColor;
+		algorithm.elements[middleIndex].color = AlgorithmVisualizer.purpleColor;
+		algorithm.render();
+		await AlgorithmVisualizer.sleep(100);
+		algorithm.elements[middleIndex].color = algorithm.elementsColor;
 
-		await this.sort(leftIndex, middleIndex);
-		await this.sort(middleIndex + 1, rightIndex);
-		await this.merge(leftIndex, middleIndex, rightIndex);
+		await AlgorithmVisualizer.sort(algorithm, leftIndex, middleIndex);
+		await AlgorithmVisualizer.sort(algorithm, middleIndex + 1, rightIndex);
+		await AlgorithmVisualizer.merge(algorithm, leftIndex, middleIndex, rightIndex);
  	}
 
-	async merge(leftIndex, middleIndex, rightIndex) {
+	static async merge(algorithm, leftIndex, middleIndex, rightIndex) {
 		const lArrayLength = middleIndex - leftIndex + 1;
 		const rArrayLength = rightIndex - middleIndex;
 
 		let lArray = [];
 		let rArray = [];
-		const xValues = this.algorithm.elements.map(element => element.x);
+		const xValues = algorithm.elements.map(element => element.x);
 
 		for (let i = 0; i < lArrayLength; i++) {
-			lArray[i] = this.algorithm.elements[leftIndex + i];
-			this.algorithm.elements[leftIndex + i].color = '#1166ff';
+			lArray[i] = algorithm.elements[leftIndex + i];
+			algorithm.elements[leftIndex + i].color = '#1166ff';
 		}
 
 		for (let i = 0; i < rArrayLength; i++) {
-			rArray[i] = this.algorithm.elements[(middleIndex + 1) + i];
-			this.algorithm.elements[(middleIndex + 1) + i].color = '#ffcc44';
+			rArray[i] = algorithm.elements[(middleIndex + 1) + i];
+			algorithm.elements[(middleIndex + 1) + i].color = '#ffcc44';
 		}
 
-		this.algorithm.render();
-		await this.sleep(100);let lArrayIndex = 0;
+		algorithm.render();
+		await AlgorithmVisualizer.sleep(100);let lArrayIndex = 0;
 
 		let rArrayIndex = 0;
 		let mergedArrayIndex = leftIndex;
@@ -223,13 +221,13 @@ class AlgorithmVisualizer {
 		while(lArrayIndex < lArrayLength && rArrayIndex < rArrayLength) {
 
 			if (lArray[lArrayIndex].value <= rArray[rArrayIndex].value) {
-				this.algorithm.elements[mergedArrayIndex] = lArray[lArrayIndex];
-				this.algorithm.elements[mergedArrayIndex].x = xValues[mergedArrayIndex];
+				algorithm.elements[mergedArrayIndex] = lArray[lArrayIndex];
+				algorithm.elements[mergedArrayIndex].x = xValues[mergedArrayIndex];
 				lArrayIndex++;
 			}
 			else {
-				this.algorithm.elements[mergedArrayIndex] = rArray[rArrayIndex];
-				this.algorithm.elements[mergedArrayIndex].x = xValues[mergedArrayIndex];
+				algorithm.elements[mergedArrayIndex] = rArray[rArrayIndex];
+				algorithm.elements[mergedArrayIndex].x = xValues[mergedArrayIndex];
 				rArrayIndex++;
 			}
 			
@@ -237,23 +235,23 @@ class AlgorithmVisualizer {
 		}
 
 		while(lArrayIndex < lArrayLength) {
-			this.algorithm.elements[mergedArrayIndex] = lArray[lArrayIndex];
-			this.algorithm.elements[mergedArrayIndex].x = xValues[mergedArrayIndex];
+			algorithm.elements[mergedArrayIndex] = lArray[lArrayIndex];
+			algorithm.elements[mergedArrayIndex].x = xValues[mergedArrayIndex];
 			lArrayIndex++;
 			mergedArrayIndex++;
 		}	
 
 		while(rArrayIndex < rArrayLength) {
-			this.algorithm.elements[mergedArrayIndex] = rArray[rArrayIndex];
-			this.algorithm.elements[mergedArrayIndex].x = xValues[mergedArrayIndex];
+			algorithm.elements[mergedArrayIndex] = rArray[rArrayIndex];
+			algorithm.elements[mergedArrayIndex].x = xValues[mergedArrayIndex];
 			rArrayIndex++;
 			mergedArrayIndex++;
 		}
 
-		this.algorithm.render();
-		await this.sleep(100);
+		algorithm.render();
+		await AlgorithmVisualizer.sleep(100);
 
-		for (let element of this.algorithm.elements) element.color = this.defaultColor;
+		for (let element of algorithm.elements) element.color = this.defaultColor;
 	}
 }
 

@@ -1,28 +1,63 @@
 import { Algorithm } from "./modules/algorithm.mjs";
 import { AlgorithmVisualizer } from "./modules/algorithmVisualizer.mjs";
-import { ModeButton } from "./modules/modeButton.mjs";
-import { ShuffleButton } from "./modules/shuffleButton.mjs";
-import { PlayButton } from "./modules/playButton.mjs";
+import { Button } from "./modules/button.mjs";
+import { playCommand, shuffleCommand, changeThemeCommand } from "./modules/command.mjs";
 
 const canvas = document.getElementById("step-by-step");
 const ctx = canvas.getContext("2d");
+const iconsFont = 'bootstrap-icons';
 
-const values = [1,2,3,4,5,6,7,8,9,10];
-const algorithm = new Algorithm(values, canvas);
-const algorithmVisualizer = new AlgorithmVisualizer(algorithm);
-
-const modeButton = new ModeButton(canvas);
-const shuffleButton = new ShuffleButton(canvas);
-const playButton = new PlayButton(canvas);
+let values = [1,2,3,4,5,6,7,8,9,10];
+let algorithm;
+let themeButton;
+let shuffleButton;
+let playButton;
 
 window.addEventListener("DOMContentLoaded", function () {
+
+	// common with other files: for further consideration
 	canvas.width = canvas.clientWidth;
 	canvas.height = canvas.clientHeight;
+	canvas.theme = 'dark';
 
-	algorithm.render();
-	modeButton.render();
-	shuffleButton.render();
-	playButton.render();
+	algorithm = new Algorithm(values, canvas);
+
+	themeButton = new Button (
+		canvas,
+		iconsFont,
+		'\uF1D1',
+		canvas.clientWidth - canvas.clientWidth / 20,
+		canvas.clientHeight / 16
+	);
+
+	shuffleButton = new Button (
+		canvas,
+		iconsFont,
+		'\uF544',
+		canvas.clientWidth * 3/8,
+		canvas.clientHeight - canvas.clientHeight / 8
+	);
+
+	playButton = new Button(
+		canvas,
+		iconsFont,
+		'\uF4F2',
+		canvas.clientWidth * 5/8,
+		canvas.clientHeight - canvas.clientHeight / 8
+	);
+
+	shuffleButton.setCommand('click', shuffleCommand(algorithm));
+	themeButton.setCommand('click', changeThemeCommand(canvas));
+
+
+	// not common across files
+	const playCommandOptions = {
+		elementsToHide: [playButton, shuffleButton],
+		algorithm: algorithm,
+		visualization: AlgorithmVisualizer.stepByStepBubbleSort
+	}
+
+	playButton.setCommand('click', playCommand(playCommandOptions));
 });
 
 window.addEventListener("resize", function () {
@@ -30,24 +65,7 @@ window.addEventListener("resize", function () {
 	canvas.height = canvas.clientHeight;
 
 	algorithm.render();
-	modeButton.render();
+	themeButton.render();
 	shuffleButton.render();
 	playButton.render();
-});
-
-window.addEventListener("keypress", function(event) {
-	if(event.key === 'l') console.log(playButton);
-});
-
-canvas.addEventListener('shuffleclicked', function() {
-	algorithm.shuffle();
-	algorithm.render();
-});
-
-canvas.addEventListener('playclicked', async function() {
-	shuffleButton.hide();
-	playButton.hide();
-	await algorithmVisualizer.stepByStepBubbleSort();
-	shuffleButton.show();
-	playButton.show();
 });

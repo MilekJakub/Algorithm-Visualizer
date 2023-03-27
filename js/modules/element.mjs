@@ -18,6 +18,7 @@ class Element {
 	drawText(ctx) {
 		ctx.font = this.font;
     const margin = (this.width - ctx.measureText(this.value).width) / 2;
+		// remove all non-digit characters
 		const fontSize = this.font.replace(/\D/g,'');
 
     ctx.fillText(
