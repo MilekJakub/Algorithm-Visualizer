@@ -1,7 +1,7 @@
-import { Algorithm } from "./modules/algorithm.mjs";
-import { AlgorithmVisualizer } from "./modules/algorithmVisualizer.mjs";
-import { Button } from "./modules/button.mjs";
-import { playCommand, shuffleCommand, changeThemeCommand } from "./modules/command.mjs";
+import { Algorithm } from "./modules/Algorithm.mjs";
+import { Visualizer } from "./modules/Visualizer.mjs";
+import { Button } from "./modules/Button.mjs";
+import { playCommand, shuffleCommand, changeThemeCommand } from "./modules/Command.mjs";
 
 const canvas = document.getElementById("step-by-step");
 const ctx = canvas.getContext("2d");
@@ -9,6 +9,7 @@ const iconsFont = 'bootstrap-icons';
 
 let values = [1,2,3,4,5,6,7,8,9,10];
 let algorithm;
+let visualizer;
 let themeButton;
 let shuffleButton;
 let playButton;
@@ -21,6 +22,7 @@ window.addEventListener("DOMContentLoaded", function () {
 	canvas.theme = 'dark';
 
 	algorithm = new Algorithm(values, canvas);
+	visualizer = new Visualizer(algorithm);
 
 	themeButton = new Button (
 		canvas,
@@ -54,8 +56,8 @@ window.addEventListener("DOMContentLoaded", function () {
 	const playCommandOptions = {
 		elementsToHide: [playButton, shuffleButton],
 		algorithm: algorithm,
-		visualization: AlgorithmVisualizer.stepByStepBubbleSort
-	}
+		visualizer: visualizer
+	};
 
 	playButton.setCommand('click', playCommand(playCommandOptions));
 });

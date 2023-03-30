@@ -1,6 +1,6 @@
 class Command {
 	constructor(execute) {
-		if(!execute) throw new Error('You need to provide command action in order to create command object.');
+		if(!execute) throw new Error('Command action not provided.');
 		this.execute = execute;
   }
 }
@@ -9,7 +9,7 @@ function playCommand(options) {
 
 	async function action() {
 		options.elementsToHide.forEach(element => element.hide());
-		await options.visualization(options.algorithm);
+		await options.visualizer.bubbleSortInteractive();
 		options.elementsToHide.forEach(element => element.show());
 	}
 

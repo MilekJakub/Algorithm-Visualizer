@@ -1,4 +1,4 @@
-import { Element } from './element.mjs';
+import { Element } from './Element.mjs';
 
 class Algorithm {
 
