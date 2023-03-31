@@ -1,73 +1,18 @@
-import { Algorithm } from "./modules/Algorithm.mjs";
-import { Visualizer } from "./modules/Visualizer.mjs";
-import { Button } from "./modules/Button.mjs";
-import { playCommand, shuffleCommand, changeThemeCommand } from "./modules/Command.mjs";
+import { VisualizerAnimation } from './modules/VisualizerAnimation.mjs';
+import { VisualizerInteractive } from './modules/VisualizerInteractive.mjs';
 
-const canvas = document.getElementById("step-by-step");
-const ctx = canvas.getContext("2d");
-const iconsFont = 'bootstrap-icons';
+const interactiveCanvas = document.getElementById('step-by-step');
+const animationCanvas = document.getElementById('considerable');
 
-let values = [1,2,3,4,5,6,7,8,9,10];
-let algorithm;
-let visualizer;
-let themeButton;
-let shuffleButton;
-let playButton;
+let interactive;
+let animation;
 
 window.addEventListener("DOMContentLoaded", function () {
-
-	// common with other files: for further consideration
-	canvas.width = canvas.clientWidth;
-	canvas.height = canvas.clientHeight;
-	canvas.theme = 'dark';
-
-	algorithm = new Algorithm(values, canvas);
-	visualizer = new Visualizer(algorithm);
-
-	themeButton = new Button (
-		canvas,
-		iconsFont,
-		'\uF1D1',
-		canvas.clientWidth - canvas.clientWidth / 20,
-		canvas.clientHeight / 16
-	);
-
-	shuffleButton = new Button (
-		canvas,
-		iconsFont,
-		'\uF544',
-		canvas.clientWidth * 3/8,
-		canvas.clientHeight - canvas.clientHeight / 8
-	);
-
-	playButton = new Button(
-		canvas,
-		iconsFont,
-		'\uF4F2',
-		canvas.clientWidth * 5/8,
-		canvas.clientHeight - canvas.clientHeight / 8
-	);
-
-	shuffleButton.setCommand('click', shuffleCommand(algorithm));
-	themeButton.setCommand('click', changeThemeCommand(canvas));
-
-
-	// not common across files
-	const playCommandOptions = {
-		elementsToHide: [playButton, shuffleButton],
-		algorithm: algorithm,
-		visualizer: visualizer
-	};
-
-	playButton.setCommand('click', playCommand(playCommandOptions));
+	interactive = new VisualizerInteractive(interactiveCanvas, 'bubbleSortInteractive', 10);
+	animation = new VisualizerAnimation(animationCanvas, 'bubbleSortAnimation', 48);
 });
 
 window.addEventListener("resize", function () {
-	canvas.width = canvas.clientWidth;
-	canvas.height = canvas.clientHeight;
-
-	algorithm.render();
-	themeButton.render();
-	shuffleButton.render();
-	playButton.render();
+	interactive.render();
+	animation.render();
 });

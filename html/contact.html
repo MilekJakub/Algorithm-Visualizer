@@ -1,1 +1,64 @@
 <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel='icon' type='image/x-icon' href='../favicon.ico' />
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/article.css">
+  <link rel="stylesheet" href="../css/sidebar.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <title>Visualization</title>
+</head>
+
+<body>
+  <aside id="sidebar">
+
+    <div class="sidebar-header">
+      <p>Navigation</p>
+    </div>
+
+    <div class="sidebar-content">
+      <nav>
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../html/about.html">About</a></li>
+          <li class='dropdown'>Algorithms <i class="bi bi-caret-down"></i></li>
+          <ul class="dropdown-content">
+            <li><a href="../html/algorithms/bubble.html">Bubble sort</a></li>
+            <li><a href="../html/algorithms/insertion.html">Insertion sort</a></li>
+            <li><a href="../html/algorithms/selection.html">Selection sort</a></li>
+            <li><a href="../html/algorithms/merge.html">Merge sort</a></li>
+          </ul>
+          <li><a href="../html/contact.html" style="pointer-events: none; text-decoration: underline;">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="sidebar-footer">
+      <p>Jakub Miłek &copy;</p>
+    </div>
+
+  </aside>
+
+  <div class="sidebar-toggle">
+    <i class="bi bi-list"></i>
+  </div>
+
+  <main>
+    <canvas id="canvas" style="opacity: 0.1;"></canvas>
+  </main>
+
+  <header>
+    <h3 style="text-align: center;">jakurm@outlook.com</h3>
+    <h3 style="text-align: center;">github.com/milekjakub</h3>
+    <h3 style="text-align: center;">linkedin.com/in/milekjakub</h3>
+  </header>
+
+  <script src="../js/sidebar.js" defer></script>
+  <script type="module" src="../js/home.js" defer></script>
+</body>
+
+</html>

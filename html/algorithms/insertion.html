@@ -1,1 +1,91 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="../../favicon.ico">
+
+  <link rel="stylesheet" href="../../css/style.css">
+	<link rel="stylesheet" href="../../css/sidebar.css">
+	<link rel="stylesheet" href="../../css/article.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+  <title>Visualization</title>
+</head>
+<body>
+  <aside id="sidebar">
+
+    <div class="sidebar-header">
+      <p>Navigation</p>
+    </div>
+
+    <div class="sidebar-content">
+      <nav>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li class='dropdown'>Algorithms <i class="bi bi-caret-up-fill"></i></li>
+					<ul class="dropdown-content" style="display: block;">
+						<li><a href="./bubble.html">Bubble sort</a></li>
+						<li><a href="./insertion.html" style="pointer-events: none; text-decoration: underline;">Insertion sort</a></li>
+						<li><a href="./selection.html">Selection sort</a></li>
+						<li><a href="./merge.html">Merge sort</a></li>
+					</ul>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="sidebar-footer">
+      <p>Jakub Miłek &copy;</p>
+    </div>
+
+  </aside>
+
+	<div class="sidebar-toggle">
+		<i class="bi bi-list"></i>
+	</div>
+
+	<article>
+		<h1>Insertion Sort</h1>
+		<h2>Introduction</h2>
+		<p>Insertion sort is a simple sorting algorithm that works similar to the way you sort playing cards in your hands.</p>
+
+		<h2>How does it work?</h2>
+		<p>The array is virtually split into a sorted and an unsorted part. Values from the unsorted part are picked and placed at the correct position in the sorted part.</p>
+
+<code>begin insertionSort(list)
+  n = length(list)
+  for i = 1 to n - 1 do
+    j = i
+    while j &gt; 0 and list[j-1] &gt; list[j] do
+        swap(list[j], list[j-1])
+        j = j - 1
+    end while
+  end for
+end insertionSort</code>
+		
+		<h2>Step By Step</h2>
+		<canvas id="step-by-step"></canvas>
+
+		<h2>Implementation (JavaScript)</h2>
+<code>function insertionSort(values) {
+  for (let i = 0; i &lt; values.length; i++) {
+    let j = i;
+    while(j &gt; 0 && values[j - 1] &gt; values[j]) {
+      let temp = values[j];
+      values[j] = values[j - 1];
+      values[j - 1] = temp;
+      j--;
+    }
+  }
+}</code>
+
+	<h2>Visualization</h2>
+	<canvas id="considerable"></canvas>
+
+	<script src="../../js/sidebar.js" defer></script>
+  <script type="module" src="../../js/insertion.js" defer></script>
+<body>
+</html>

@@ -1,25 +1,29 @@
-import { Algorithm } from "./modules/Algorithm.mjs";
-import { Visualizer } from "./modules/Visualizer.mjs";
+import { Algorithm } from './modules/Algorithm.mjs';
+import { Visualizations } from './modules/Visualizations.mjs';
+import { sleep } from './modules/Utils.mjs';
 
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+const animationCanvas = document.getElementById('canvas');
+let algorithm;
+let visualizations;
 
-const values = [1,2,3,4,5,6,7,8,9,10];
-const algorithm = new Algorithm(values, canvas);
-const visualizer = new Visualizer(algorithm);
-
-window.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("DOMContentLoaded", async function () {
 	canvas.width = canvas.clientWidth;
 	canvas.height = canvas.clientHeight;
 
-	algorithm.render();
-	homepageLoop();
+	const options = {
+      values: Array.from({length: 10}, (_, i) => i + 1),
+      canvas: animationCanvas,
+      margin: 2,
+      displayFont: false
+	};
+
+	algorithm = new Algorithm(options);
+	visualizations = new Visualizations(algorithm);
+
+	await homepageLoop();
 });
 
 window.addEventListener("resize", function () {
-	canvas.width = canvas.clientWidth;
-	canvas.height = canvas.clientHeight;
-
 	algorithm.render();
 });
 
@@ -27,19 +31,22 @@ async function homepageLoop() {
 	while(true) {
 		algorithm.shuffle();
 		algorithm.render();
-		await visualizer.bubbleSortAnimation(algorithm);
-		await visualizer.sleep(1000);
-		
-		// algorithm.shuffle();
-		// algorithm.render();
-		// await AlgorithmVisualizer.insertionSort(algorithm);
+		await visualizations.bubbleSortAnimation(50);
+		await sleep(500);
 
-		// algorithm.shuffle();
-		// algorithm.render();
-		// await AlgorithmVisualizer.selectionSort(algorithm);
+		algorithm.shuffle();
+		algorithm.render();
+		await visualizations.insertionSortAnimation(50);
+		await sleep(500);
 
-		// algorithm.shuffle();
-		// algorithm.render();
-		// await AlgorithmVisualizer.mergeSort(algorithm);
+		algorithm.shuffle();
+		algorithm.render();
+		await visualizations.selectionSortAnimation(50);
+		await sleep(500);
+
+		algorithm.shuffle();
+		algorithm.render();
+		await visualizations.mergeSortAnimation(50);
+		await sleep(500);
 	}
 }

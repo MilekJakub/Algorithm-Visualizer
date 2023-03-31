@@ -71,8 +71,7 @@ end BubbleSort</code>
 		<canvas id="step-by-step"></canvas>
 
 		<h2>Implementation (JavaScript)</h2>
-<code>// changes array
-function bubbleSort(values) {
+<code>function bubbleSort(values) {
   for (let i = 0; i &lt; values.length - 1; i++) {
     for(let j = 0; j &lt; values.length - i - 1; j++) {
       if (values[j] &gt; values[j + 1]) {
@@ -82,22 +81,10 @@ function bubbleSort(values) {
       }
     }
   }
-}
-
-// returns new array
-function bubbleSort(values) {
-  const sorted = [...values];
-  for (let i = 0; i &lt; sorted.length - 1; i++) {
-    for(let j = 0; j &lt; sorted.length - i - 1; j++) {
-      if (sorted[j] &gt; sorted[j + 1]) {
-        let temp = sorted[j];
-        sorted[j] = sorted[j + 1];
-        sorted[j + 1] = sorted;
-      }
-    }
-  }
-  return sorted;
 }</code>
+
+	<h2>Visualization</h2>
+	<canvas id="considerable"></canvas>
 
 	<script src="../../js/sidebar.js" defer></script>
   <script type="module" src="../../js/bubble.js" defer></script>

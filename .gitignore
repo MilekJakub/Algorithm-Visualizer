@@ -11,3 +11,6 @@ Sessionx.vim
 *~
 tags
 [._]*.un~
+
+# Project
+legacy/

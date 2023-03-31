@@ -1,1 +1,114 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="../../favicon.ico">
+
+  <link rel="stylesheet" href="../../css/style.css">
+	<link rel="stylesheet" href="../../css/sidebar.css">
+	<link rel="stylesheet" href="../../css/article.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+  <title>Visualization</title>
+</head>
+<body>
+  <aside id="sidebar">
+
+    <div class="sidebar-header">
+      <p>Navigation</p>
+    </div>
+
+    <div class="sidebar-content">
+      <nav>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li class='dropdown'>Algorithms <i class="bi bi-caret-up-fill"></i></li>
+					<ul class="dropdown-content" style="display: block;">
+						<li><a href="./bubble.html">Bubble sort</a></li>
+						<li><a href="./insertion.html">Insertion sort</a></li>
+						<li><a href="./selection.html" style="pointer-events: none; text-decoration: underline;">Selection sort</a></li>
+						<li><a href="./merge.html">Merge sort</a></li>
+					</ul>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="sidebar-footer">
+      <p>Jakub Miłek &copy;</p>
+    </div>
+
+  </aside>
+
+	<div class="sidebar-toggle">
+		<i class="bi bi-list"></i>
+	</div>
+
+	<article>
+		<h1>Selection Sort</h1>
+		<h2>Introduction</h2>
+		<p>Selection sort is a simple and efficient sorting algorithm that works by repeatedly selecting the smallest (or largest) element from the unsorted portion of the list and moving it to the sorted portion of the list.</p>
+
+		<h2>How does it work?</h2>
+		<p>The algorithm repeatedly selects the smallest (or largest) element from the unsorted portion of the list and swaps it with the first element of the unsorted portion. This process is repeated for the remaining unsorted portion of the list until the entire list is sorted.</p>
+
+<code>begin selectionSort(list)
+
+    last := length(list) - 1;
+
+    nextMax := list[last];
+    for i := last - 1 downto 0 do
+        if list[i] &gt; nextMax then
+            nextMax := list[i];
+    while (last &gt; 0) and (list[last] = nextMax) do
+        last := last - 1;
+
+    while last &gt; 0 do begin
+        prevMax := nextMax;
+        nextMax := list[last];
+        for i := last - 1 downto 0 do
+             if list[i] &gt; nextMax then
+                 if list[i] != prevMax then
+                     nextMax := list[i];
+                 else begin
+                     swap(list[i], list[last]);
+                     last := last - 1;
+                 end
+        while (last &gt; 0) and (list[last] = nextMax) do
+            last := last - 1;
+    end;
+
+end selectionSort</code>
+		
+		<h2>Step By Step</h2>
+		<canvas id="step-by-step"></canvas>
+
+		<h2>Implementation (JavaScript)</h2>
+<code>function selectionSort(values) {
+  let minIndex;
+
+  for (let i = 0; i &lt; values.length - 1; i++) {
+    minIndex = i;
+    for (let j = i + 1; j &lt; n; j++) {
+      if (values[j] &lt; values[minIndex])
+        minIndex = j;
+    }
+
+    // swap
+    let temp = values[minIndex];
+    values[minIndex] = values[i];
+    values[i] = temp;
+  }
+}
+</code>
+
+	<h2>Visualization</h2>
+	<canvas id="considerable"></canvas>
+
+	<script src="../../js/sidebar.js" defer></script>
+  <script type="module" src="../../js/selection.js" defer></script>
+<body>
+</html>

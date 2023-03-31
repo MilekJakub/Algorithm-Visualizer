@@ -4,13 +4,13 @@ html {
 }
 
 body {
+	display: flex;
 	font-family: Consolas, monospace;
 	color: white;
   background-color: #222222;
 	height: 100%;
 	padding: 0;
 	margin: 0;
-	display: flow-root;
 }
 
 .pointer {

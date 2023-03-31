@@ -1,13 +1,12 @@
 article {
 	background-color: #0d1117;
-	color: #ccc;
+	color: #cccccc;
   font-size: 16px;
   line-height: 1.5;
   word-wrap: break-word;
-
 	min-width: 240px;
 	max-width: 1024px;
-	margin: 0 auto;
+	margin: auto;
 	padding: 45px;
 }
 
@@ -21,7 +20,7 @@ article h1 {
   margin: .4em 0;
   padding-bottom: .3em;
   font-size: 2em;
-  border-bottom: 1px solid #21262d;
+  border-bottom: 1px solid white;
 }
 
 article h2 {

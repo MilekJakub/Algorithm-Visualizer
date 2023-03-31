@@ -1,7 +1,6 @@
 class Button {
-
 	canvas;
-	previousCanvasDimensions;
+	previousSize;
 	ctx;
 	font;
 	fontSize;
@@ -19,7 +18,7 @@ class Button {
 
 	constructor(canvas, font, icon, x, y) {
 		this.canvas = canvas;
-		this.previousCanvasDimensions = {
+		this.previousSize = {
 			clientWidth: canvas.clientWidth,
 			clientHeight: canvas.clientHeight
 		};
@@ -29,7 +28,9 @@ class Button {
 		this.x = x;
 		this.y = y;
 		this.scale();
+
 		this.commands = {};
+
 		this.events = [
 			'click',
 			'mousemove',
@@ -37,20 +38,25 @@ class Button {
 			'mouseleavebutton',
 			'themechange'
 		];
+
 		this.handlers = [];
+
 		this.show();
 	}
 
 	scale() {
-		this.scaleFactorX = this.canvas.width / this.previousCanvasDimensions.clientWidth;
-		this.scaleFactorY = this.canvas.height / this.previousCanvasDimensions.clientHeight;
+		this.scaleFactorX = this.canvas.width / this.previousSize.clientWidth;
+		this.scaleFactorY = this.canvas.height / this.previousSize.clientHeight;
 		this.x *= this.scaleFactorX;
 		this.y *= this.scaleFactorY;
-		this.previousCanvasDimensions.clientWidth = this.canvas.clientWidth;
-		this.previousCanvasDimensions.clientHeight = this.canvas.clientHeight;
+		this.previousSize.clientWidth = this.canvas.clientWidth;
+		this.previousSize.clientHeight = this.canvas.clientHeight;
 
-    // magic number '18'
+		// magic number '18'
 		this.fontSize = this.canvas.height / 18;
+		if(this.fontSize < 28)
+			this.fontSize = 28;
+
 		this.margin = this.fontSize / 2;
 
 		this.path = new Path2D();
@@ -99,9 +105,8 @@ class Button {
 		this.removeEvents();
 	}
 
-  setCommand(name, command) {
-		this.commands[name] = command;
-	}
+  setCommand(name, command) { this.commands[name] = command; }
+  removeCommand(name, command) { this.comands[name] = undefined; }
 
 	addEvents() {
 		this.events.forEach(eventName => {
@@ -119,6 +124,7 @@ class Button {
 		this.handlers.forEach(handlerInfo => {
 			this.canvas.removeEventListener(handlerInfo.eventName, handlerInfo.handler);
 		});
+
 		this.handlers = [];
 	}
 
@@ -144,17 +150,9 @@ class Button {
 		}
 	}
 
-	handle_mouseoverbutton() {
-		document.body.classList.add('pointer');
-	}
-
-	handle_mouseleavebutton() {
-		document.body.classList.remove('pointer');
-	}
-
-	handle_themechange() {
-		this.render();
-	}
+	handle_mouseoverbutton() { document.body.classList.add('pointer'); }
+	handle_mouseleavebutton() { document.body.classList.remove('pointer'); }
+	handle_themechange() { this.render(); }
 }
 
 export { Button };

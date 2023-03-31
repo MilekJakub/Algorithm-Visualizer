@@ -1,1 +1,152 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="../../favicon.ico">
+
+  <link rel="stylesheet" href="../../css/style.css">
+	<link rel="stylesheet" href="../../css/sidebar.css">
+	<link rel="stylesheet" href="../../css/article.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+  <title>Visualization</title>
+</head>
+<body>
+  <aside id="sidebar">
+
+    <div class="sidebar-header">
+      <p>Navigation</p>
+    </div>
+
+    <div class="sidebar-content">
+      <nav>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li class='dropdown'>Algorithms <i class="bi bi-caret-up-fill"></i></li>
+					<ul class="dropdown-content" style="display: block;">
+						<li><a href="./bubble.html">Bubble sort</a></li>
+						<li><a href="./insertion.html">Insertion sort</a></li>
+						<li><a href="./selection.html">Selection sort</a></li>
+						<li><a href="./merge.html" style="pointer-events: none; text-decoration: underline;">Merge sort</a></li>
+					</ul>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="sidebar-footer">
+      <p>Jakub Miłek &copy;</p>
+    </div>
+
+  </aside>
+
+	<div class="sidebar-toggle">
+		<i class="bi bi-list"></i>
+	</div>
+
+	<article>
+		<h1>Merge Sort</h1>
+		<h2>Introduction</h2>
+		<p>Merge sort is defined as a sorting algorithm that works by dividing an array into smaller subarrays, sorting each subarray, and then merging the sorted subarrays back together to form the final sorted array.</p>
+
+		<h2>How does it work?</h2>
+		<p>In simple terms, we can say that the process of merge sort is to divide the array into two halves, sort each half, and then merge the sorted halves back together. This process is repeated until the entire array is sorted.</p>
+
+<code>/*
+*  A: Input array
+*  B: Output array
+*  lo: lower bound
+*  hi: upper bound
+*  off: offset
+*/
+
+algorithm parallelMergesort(A, lo, hi, B, off) is
+    len := hi - lo + 1
+
+    if len == 1 then
+        B[off] := A[lo]
+
+    else let T[1..len] be a new array
+        mid := (lo + hi) / 2
+        mid' := mid - lo + 1
+
+        fork parallelMergesort(A, lo, mid, T, 1)
+
+        parallelMergesort(A, mid + 1, hi, T, mid' + 1) 
+        join 
+        parallelMerge(T, 1, mid', mid' + 1, len, B, off)</code>
+		
+		<h2>Step By Step</h2>
+		<canvas id="step-by-step"></canvas>
+
+		<h2>Implementation (JavaScript)</h2>
+<code>mergeSort(values) {
+  let leftIndex = 0;
+  let rightIndex = values.length - 1;
+  this.sort(values, leftIndex, rightIndex);
+}
+
+sort(values, leftIndex, rightIndex) {
+  if (leftIndex &gt;= rightIndex) return;
+
+  const middleIndex = Math.trunc((leftIndex + rightIndex) / 2);
+
+  this.sort(values, leftIndex, middleIndex);
+  this.sort(values, middleIndex + 1, rightIndex);
+  this.merge(values, leftIndex, middleIndex, rightIndex);
+}
+
+merge(values, leftIndex, middleIndex, rightIndex) {
+  const lArrayLength = middleIndex - leftIndex + 1;
+  const rArrayLength = rightIndex - middleIndex;
+
+  const lArray = [];
+  const rArray = [];
+
+  for (let i = 0; i &lt; lArrayLength; i++)
+    lArray[i] = values[leftIndex + i];
+
+  for (let i = 0; i &lt; rArrayLength; i++)
+    rArray[i] = values[(middleIndex + 1) + i];
+
+  let lArrayIndex = 0;
+  let rArrayIndex = 0;
+  let mergedArrayIndex = leftIndex;
+	
+  while(lArrayIndex &lt; lArrayLength && rArrayIndex &lt; rArrayLength) {
+    if (lArray[lArrayIndex] &lt;= rArray[rArrayIndex]) {
+      values[mergedArrayIndex] = lArray[lArrayIndex];
+      lArrayIndex++;
+    }
+		
+    else {
+      values[mergedArrayIndex] = rArray[rArrayIndex];
+      rArrayIndex++;
+    }
+
+    mergedArrayIndex++;
+  }
+
+  while(lArrayIndex &lt; lArrayLength) {
+    values[mergedArrayIndex] = lArray[lArrayIndex];
+    lArrayIndex++;
+    mergedArrayIndex++;
+  }	
+
+  while(rArrayIndex &lt; rArrayLength) {
+    values[mergedArrayIndex] = rArray[rArrayIndex];
+    rArrayIndex++;
+    mergedArrayIndex++;
+  }
+}</code>
+
+	<h2>Visualization</h2>
+	<canvas id="considerable"></canvas>
+
+	<script src="../../js/sidebar.js" defer></script>
+  <script type="module" src="../../js/merge.js" defer></script>
+<body>
+</html>
